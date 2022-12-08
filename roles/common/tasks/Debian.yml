@@ -1,0 +1,4 @@
+---
+- name: 当前为 Debian
+  debug:
+    msg: "当前为 Debian"
