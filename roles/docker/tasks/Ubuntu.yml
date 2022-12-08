@@ -1,0 +1,75 @@
+---
+# 显示信息,将使用 docker_repository_url_base 作为 docker 安装源
+- name: 显示信息,将使用 docker_repository_url_base 作为 docker 安装源
+  debug:
+    msg: "将使用 {{ docker_repository_url_base }} 作为 docker 安装源"
+
+# remove docker docker-engine docker.io containerd runc
+- name: remove docker docker-engine docker.io containerd runc
+  apt:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - docker
+    - docker-engine
+    - docker.io
+    - containerd
+    - runc
+
+# update apt and install packages ca-certificates curl gnupg lsb-release
+- name: update apt and install packages ca-certificates curl gnupg lsb-release
+  apt:
+    update_cache: yes
+    name: "{{ item }}"
+    state: present
+  loop:
+    - ca-certificates
+    - curl
+    - gnupg
+    - lsb-release
+
+# Add Docker’s official GPG key
+- name: Add Docker’s official GPG key
+  apt_key:
+    url: "{{ docker_repository_url_base }}/linux/ubuntu/gpg"
+    keyring: /etc/apt/keyrings/docker.gpg
+    state: present
+
+# Set up docker repository when ansible_architecture == "x86_64"
+- name: Set up docker repository for x86_64
+  apt_repository:
+    repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] {{ docker_repository_url_base }}/linux/ubuntu {{ ansible_distribution_release }} stable
+    filename: docker
+    update_cache: yes
+    state: present
+  when: ansible_architecture == "x86_64"
+
+# Set up docker repository when ansible_architecture == "aarch64"
+- name: Set up docker repository for aarch64
+  apt_repository:
+    repo: deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.gpg] {{ docker_repository_url_base }}/linux/ubuntu {{ ansible_distribution_release }} stable
+    filename: docker
+    update_cache: yes
+    state: present
+  when: ansible_architecture == "aarch64"
+
+# install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+- name: install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-compose-plugin
+
+# Configure Docker and Containerd to start on boot with systemd
+- name: Configure Docker and Containerd to start on boot with systemd
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  loop:
+    - docker
+    - containerd

@@ -5,4 +5,8 @@
   become_user: root
   roles:
   - role: gcslaoli.cloud.common
-    tags: info
+    tags: common
+  - role: gcslaoli.cloud.docker
+    tags: docker
+    vars:
+      docker_repository_url_base: "https://mirrors.aliyun.com/docker-ce"

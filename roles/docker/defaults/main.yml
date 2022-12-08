@@ -1,0 +1,6 @@
+---
+# defaults file for gcslaoli.cloud.docker
+
+# Docker Repository URL Base
+docker_repository_url_base: "https://download.docker.com" # this is the official docker repository url base
+# docker_repository_url_base: "https://mirrors.aliyun.com/docker-ce" # this is the aliyun docker repository url base

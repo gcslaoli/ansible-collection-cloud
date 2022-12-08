@@ -17,3 +17,15 @@ ansible-playbook gcslaoli.cloud.info.yml -l ubuntu-amd64
 ```bash
 ansible-playbook gcslaoli.cloud.test.yml
 ```
+
+执行标签为 common 的任务
+
+```bash
+ansible-playbook gcslaoli.cloud.test.yml --tags common
+```
+
+执行标签为 docker 的任务
+
+```bash
+ansible-playbook gcslaoli.cloud.test.yml --tags docker
+```
