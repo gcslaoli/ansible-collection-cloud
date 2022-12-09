@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: root
+  roles:
+    - role: gcslaoli.cloud.common
+      tags: common
+      vars:
+        timezone: Asia/Shanghai
+        ubuntu_mirror: mirrors.tuna.tsinghua.edu.cn
+    - role: gcslaoli.cloud.firewall
+      tags: firewall
+      vars:
+        firewall_rules:
+          - { port: 22, proto: tcp, state: enabled }
+          - { port: 80, proto: tcp, state: enabled }
+          - { port: 443, proto: tcp, state: enabled }
+          - { port: 443, proto: udp, state: enabled }
+
+    - role: gcslaoli.cloud.docker
+      tags: docker
+      vars:
+        docker_repository_url_base: "https://mirrors.aliyun.com/docker-ce"

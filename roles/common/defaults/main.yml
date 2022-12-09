@@ -2,6 +2,8 @@
 # defaults file for gcslaoli.cloud.common
 # 通用配置
 
-# 时区
-timezone: Asia/Shanghai
+# # 时区
+# timezone: Asia/Shanghai
 
+# # ubuntu 镜像源
+# ubuntu_mirror: ""

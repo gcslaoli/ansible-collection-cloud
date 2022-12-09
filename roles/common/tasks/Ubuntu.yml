@@ -2,29 +2,29 @@
 - name: 当前为 Ubuntu
   debug:
     msg: "当前为 Ubuntu"
-# 替换 /etc/apt/sources.list 中的archive.ubuntu.com为mirrors.aliyun.com
-- name: 替换 /etc/apt/sources.list 中的archive.ubuntu.com为mirrors.aliyun.com
+# 如果 ubuntu_mirror 变量不为空，则替换 /etc/apt/sources.list 中的archive.ubuntu.com为ubuntu_mirror变量的值
+- name: 使用 {{ ubuntu_mirror }} 替换 /etc/apt/sources.list 中的archive.ubuntu.com
   replace:
     path: /etc/apt/sources.list
     regexp: 'archive.ubuntu.com'
-    replace: 'mirrors.aliyun.com'
-  when: ansible_architecture == "x86_64"
+    replace: '{{ ubuntu_mirror }}'
+  when: ubuntu_mirror is defined and ubuntu_mirror != '' and ansible_architecture == "x86_64"
 
-# 替换 /etc/apt/sources.list 中的security.ubuntu.com为mirrors.aliyun.com
-- name: 替换 /etc/apt/sources.list 中的security.ubuntu.com为mirrors.aliyun.com
+# 如果 ubuntu_mirror 变量不为空，则替换 /etc/apt/sources.list 中的security.ubuntu.com为ubuntu_mirror变量的值
+- name: 使用 {{ ubuntu_mirror }} 替换 /etc/apt/sources.list 中的security.ubuntu.com
   replace:
     path: /etc/apt/sources.list
     regexp: 'security.ubuntu.com'
-    replace: 'mirrors.aliyun.com'
-  when: ansible_architecture == "x86_64"
+    replace: '{{ ubuntu_mirror }}'
+  when: ubuntu_mirror is defined and ubuntu_mirror != '' and ansible_architecture == "x86_64"
 
-# 替换 /etc/apt/sources.list 中的ports.ubuntu.com为mirrors.aliyun.com
-- name: 替换 /etc/apt/sources.list 中的ports.ubuntu.com为mirrors.aliyun.com
+# 如果 ubuntu_mirror 变量不为空，则替换 /etc/apt/sources.list 中的ports.ubuntu.com为ubuntu_mirror变量的值
+- name: 使用 {{ ubuntu_mirror }} 替换 /etc/apt/sources.list 中的ports.ubuntu.com
   replace:
     path: /etc/apt/sources.list
     regexp: 'ports.ubuntu.com'
-    replace: 'mirrors.aliyun.com'
-  when: ansible_architecture == "aarch64"
+    replace: '{{ ubuntu_mirror }}'
+  when: ubuntu_mirror is defined and ubuntu_mirror != '' and ansible_architecture == "aarch64"
 
 # 更新软件包
 - name: 更新软件包
@@ -51,4 +51,5 @@
 - name: 设置时区为 {{ timezone }}
   community.general.timezone:
     name: "{{ timezone }}"
+  when: timezone is defined and timezone != ''
 
