@@ -8,7 +8,7 @@
       tags: common
       vars:
         timezone: Asia/Shanghai
-        ubuntu_mirror: mirrors.tuna.tsinghua.edu.cn
+        ubuntu_mirror: mirrors.aliyun.com # https://mirrors.aliyun.com/ubuntu/
     - role: gcslaoli.cloud.firewall
       tags: firewall
       vars:
@@ -17,8 +17,16 @@
           - { port: 80, proto: tcp, state: enabled }
           - { port: 443, proto: tcp, state: enabled }
           - { port: 443, proto: udp, state: enabled }
+        ufw_rules:
+          - { port: 22, proto: tcp, rule: allow }
+          - { port: 80, proto: tcp, rule: allow }
+          - { port: 443, proto: tcp, rule: allow }
+          - { port: 443, proto: udp, rule: allow }
 
     - role: gcslaoli.cloud.docker
       tags: docker
       vars:
-        docker_repository_url_base: "https://mirrors.aliyun.com/docker-ce"
+        docker_repository_url_base: "https://mirrors.aliyun.com/docker-ce" # https://mirrors.aliyun.com/docker-ce
+        docker_mirros:
+          - "https://mirror.baidubce.com"
+          - "https://hub-mirror.c.163.com"

@@ -1,0 +1,47 @@
+---
+# 配置ubuntu防火墙的脚本
+
+#  安装ufw
+- name: 安装ufw
+  apt:
+    name: ufw
+    state: latest
+    update_cache: yes
+
+# 临时关闭ufw
+- name: 临时关闭ufw
+  ufw:
+    state: disabled
+
+#  配置ufw logging
+- name: 配置ufw logging
+  ufw:
+    logging: on
+
+#  配置ufw incoming 默认规则
+- name: 配置ufw incoming 默认规则
+  ufw:
+    default: deny
+
+# 如果 ufw_rules 数组变量长度大于0,则配置ufw
+- name: 如果 ufw_rules 数组变量长度大于0,则配置ufw
+  ufw:
+    rule: "{{ item.rule }}"
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
+  with_items: "{{ ufw_rules }}"
+  when: ufw_rules is defined and ufw_rules | length > 0
+
+#  配置ufw allow ssh
+- name: 配置ufw allow ssh
+  ufw:
+    rule: allow
+    port: 22
+    proto: tcp
+
+#  启用ufw
+- name: 启用ufw
+  ufw:
+    state: enabled
+
+

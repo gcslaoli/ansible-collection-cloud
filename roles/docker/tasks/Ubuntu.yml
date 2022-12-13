@@ -64,6 +64,16 @@
     - containerd.io
     - docker-compose-plugin
 
+# Copy docker daemon config template
+- name: Copy docker daemon config template
+  template:
+    src: docker-daemon.json.j2
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: 0644
+
+
 # Configure Docker and Containerd to start on boot with systemd
 - name: Configure Docker and Containerd to start on boot with systemd
   systemd:

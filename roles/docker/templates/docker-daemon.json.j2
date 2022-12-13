@@ -1,0 +1,5 @@
+{
+    {% if docker_mirros is defined %}
+    "registry-mirrors": {{ docker_mirros | to_json }}
+    {% endif %}
+}
