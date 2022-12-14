@@ -5,8 +5,8 @@
 - name: 安装ufw
   apt:
     name: ufw
-    state: latest
-    update_cache: yes
+    state: present
+    update_cache: true
 
 # 临时关闭ufw
 - name: 临时关闭ufw
@@ -16,7 +16,7 @@
 #  配置ufw logging
 - name: 配置ufw logging
   ufw:
-    logging: on
+    logging: true
 
 #  配置ufw incoming 默认规则
 - name: 配置ufw incoming 默认规则
@@ -43,5 +43,3 @@
 - name: 启用ufw
   ufw:
     state: enabled
-
-

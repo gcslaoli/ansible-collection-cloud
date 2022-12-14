@@ -1,0 +1,11 @@
+version: "3"
+services:
+  ansible:
+    image: gcslaoli/ansible:latest
+    environment:
+      - AUTO_SSHKEY_COMMENT=ansible # 自动生成的 ssh 密钥注释
+    volumes:
+      - ./:/ansible/ # 将当前目录挂载到容器的 /ansible 目录
+      - ./data/.ssh:/tmp/.ssh # 将 ssh 密钥挂载到容器的 /tmp/.ssh 目录,如果本地目录为空, 将会自动生成密钥
+      - ./:/usr/share/ansible/collections/ansible_collections/gcslaoli/cloud/ # 将当前目录挂载到容器的 /usr/share/ansible/collections/ansible_collections/gcslaoli/cloud/ 目录
+    command: sleep infinity # 保持容器运行

@@ -6,22 +6,22 @@
 - name: 使用 {{ ubuntu_mirror }} 替换 /etc/apt/sources.list 中的archive.ubuntu.com
   replace:
     path: /etc/apt/sources.list
-    regexp: 'archive.ubuntu.com'
-    replace: '{{ ubuntu_mirror }}'
-  when: ubuntu_mirror is defined and ubuntu_mirror != ''
+    regexp: "archive.ubuntu.com"
+    replace: "{{ ubuntu_mirror }}"
+  when: ubuntu_mirror is defined
 
 # 如果 ubuntu_mirror 变量不为空，则替换 /etc/apt/sources.list 中的security.ubuntu.com为ubuntu_mirror变量的值
 - name: 使用 {{ ubuntu_mirror }} 替换 /etc/apt/sources.list 中的security.ubuntu.com
   replace:
     path: /etc/apt/sources.list
-    regexp: 'security.ubuntu.com'
-    replace: '{{ ubuntu_mirror }}'
-  when: ubuntu_mirror is defined and ubuntu_mirror != ''
+    regexp: "security.ubuntu.com"
+    replace: "{{ ubuntu_mirror }}"
+  when: ubuntu_mirror is defined
 
 # 更新软件包
 - name: 更新软件包
   apt:
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600
 
 # 安装常用软件包
@@ -41,5 +41,4 @@
 - name: 设置时区为 {{ timezone }}
   community.general.timezone:
     name: "{{ timezone }}"
-  when: timezone is defined and timezone != ''
-
+  when: timezone is defined

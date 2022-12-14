@@ -9,11 +9,11 @@
     path: /etc/apt/sources.list
     regexp: "ports.ubuntu.com"
     replace: "{{ ubuntu_mirror }}"
-  when: ubuntu_mirror is defined and ubuntu_mirror != ''
+  when: ubuntu_mirror is defined
 # 更新软件包
 - name: 更新软件包
   apt:
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600
 
 # 安装常用软件包
@@ -33,4 +33,4 @@
 - name: 设置时区为 {{ timezone }}
   community.general.timezone:
     name: "{{ timezone }}"
-  when: timezone is defined and timezone != ''
+  when: timezone is defined

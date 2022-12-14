@@ -3,14 +3,14 @@
 
 - name: reconfigure tzdata
   command: dpkg-reconfigure -f noninteractive tzdata
-  become: yes
+  become: true
   become_user: root
   become_method: sudo
   when: ansible_os_family == "Debian"
 
 - name: update-locale
   command: update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
-  become: yes
+  become: true
   become_user: root
   become_method: sudo
   when: ansible_os_family == "Debian"
@@ -18,6 +18,6 @@
 # 更新 apt 缓存
 - name: update-apt-cache
   apt:
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600
   when: ansible_os_family == "Debian"

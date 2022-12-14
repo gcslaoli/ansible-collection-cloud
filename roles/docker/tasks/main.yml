@@ -4,4 +4,3 @@
 # 按 ansible_distribution 判断操作系统, 引入对应的操作系统文件, 如: Ubuntu.yml 如果无对应的操作系统文件, 则报错
 - name: 引入对应的操作系统文件
   include_tasks: "{{ ansible_distribution }}.yml"
-
